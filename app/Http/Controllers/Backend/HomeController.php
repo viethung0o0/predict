@@ -1,7 +1,28 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: hungpv
- * Date: 13/08/2017
- * Time: 14:50
- */
+
+namespace App\Http\Controllers\Backend;
+
+use Illuminate\Http\Request;
+
+class HomeController extends AppBaseController
+{
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return view('backend.home');
+    }
+}

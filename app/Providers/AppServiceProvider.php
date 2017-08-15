@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Repositories\AdminRepository;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -102,6 +103,6 @@ class AppServiceProvider extends ServiceProvider
      */
     private function registerInjection()
     {
-        //$this->app->bind(\App\Libs\Contracts\UuidAdapter::class, \App\Libs\UuidHelper::class);
+//        $this->app->bind(AdminRepository::class);
     }
 }

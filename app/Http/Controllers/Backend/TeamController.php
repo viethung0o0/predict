@@ -2,182 +2,172 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\DataTables\AdminDataTable;
+use App\DataTables\TeamDataTable;
 use App\Http\Requests;
-use App\Http\Requests\CreateAdminRequest;
-use App\Http\Requests\UpdateAdminRequest;
+use App\Http\Requests\CreateTeamRequest;
+use App\Http\Requests\UpdateTeamRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Flash;
 use Response;
-use App\Service\AdminService;
+use App\Service\TeamService;
 use Exception;
 
-class AdminController extends AppBaseController
+class TeamController extends AppBaseController
 {
-    /** @var  AdminService */
-    private $adminService;
+    /** @var  TeamService */
+    private $teamService;
 
     /**
-     * AdminController constructor.
+     * TeamController constructor.
      *
-     * @param AdminService $adminService AdminService
+     * @param TeamService $teamService TeamService
      *
      * @return void
      */
-    public function __construct(AdminService $adminService)
+    public function __construct(TeamService $teamService)
     {
-        $this->adminService = $adminService;
+        $this->teamService = $teamService;
     }
 
     /**
-     * Display a listing of the Admin.
+     * Display a listing of the Team.
      *
-     * @param AdminDataTable $adminDataTable
+     * @param TeamDataTable $teamDataTable
      *
      * @return Response
      */
-    public function index(AdminDataTable $adminDataTable)
+    public function index(TeamDataTable $teamDataTable)
     {
         try {
-            return $adminDataTable->render('backend.admins.index');
+            return $teamDataTable->render('backend.teams.index');
         } catch (Exception $ex) {
             return redirect(route('admin.'));
         }
     }
 
     /**
-     * Show the form for creating a new Admin.
+     * Show the form for creating a new Team.
      *
      * @return Response
      */
     public function create()
     {
-        return view('backend.admins.create');
+        return view('backend.teams.create');
     }
 
     /**
-     * Store a newly created Admin in storage.
+     * Store a newly created Team in storage.
      *
-     * @param CreateAdminRequest $request
+     * @param CreateTeamRequest $request
      *
      * @return Response
      */
-    public function store(CreateAdminRequest $request)
+    public function store(CreateTeamRequest $request)
     {
         $input = $request->only([
             'name',
-            'username',
-            'email',
-            'password',
-            'birthday',
-            'gender',
-            'phone',
-            'role'
+            'description',
         ]);
 
         try {
-            $admin = $this->adminService->create($input);
-            Flash::success('Admin saved successfully.');
+            $team = $this->teamService->create($input);
+            Flash::success('Team saved successfully.');
         } catch (Exception $ex) {
-            Flash::error('Create admin account failed.');
+            Flash::error('Create team account failed.');
         }
 
-        return redirect(route('admin.admin-managements.index'));
+        return redirect(route('admin.team-managements.index'));
     }
 
     /**
-     * Display the specified Admin.
+     * Display the specified Team.
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return Response
      */
     public function show($id)
     {
-        $admin = $this->adminRepository->findWithoutFail($id);
-
-        if (empty($admin)) {
-            Flash::error('Admin not found');
-
-            return redirect(route('admin.admin-managements.index'));
+        try {
+            $team = $this->teamService->getTeamDataWhenShow($id);
+        } catch (ModelNotFoundException $ex) {
+            Flash::error('Team not found.');
+            return redirect(route('admin.team-managements.index'));
+        } catch (Exception $ex) {
+            Flash::error('Server error.');
+            return redirect(route('admin.team-managements.index'));
         }
 
-        return view('backend.admins.show')->with('admin', $admin);
+        return view('backend.teams.show')->with('team', $team);
     }
 
     /**
-     * Show the form for editing the specified Admin.
+     * Show the form for editing the specified Team.
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return Response
      */
     public function edit($id)
     {
         try {
-            $admin = $this->adminService->getAdminDataWhenEdit($id);
+            $team = $this->teamService->getTeamDataWhenEdit($id);
         } catch (ModelNotFoundException $ex) {
-            Flash::error('Admin not found.');
-            return redirect(route('admin.admin-managements.index'));
+            Flash::error('Team not found.');
+            return redirect(route('admin.team-managements.index'));
         } catch (Exception $ex) {
             Flash::error('Server error.');
-            return redirect(route('admin.admin-managements.index'));
+            return redirect(route('admin.team-managements.index'));
         }
 
-        return view('backend.admins.edit')->with('admin', $admin);
+        return view('backend.teams.edit')->with('team', $team);
     }
 
     /**
-     * Update the specified Admin in storage.
+     * Update the specified Team in storage.
      *
-     * @param  int $id
-     * @param UpdateAdminRequest $request
+     * @param int               $id
+     * @param UpdateTeamRequest $request
      *
      * @return Response
      */
-    public function update($id, UpdateAdminRequest $request)
+    public function update($id, UpdateTeamRequest $request)
     {
         $input = $request->only([
             'name',
-            'username',
-            'email',
-            'password',
-            'birthday',
-            'gender',
-            'phone',
-            'role'
+            'description',
         ]);
 
         try {
-            $admin = $this->adminService->update($input, $id);
-            Flash::success('Admin updated successfully.');
+            $team = $this->teamService->update($input, $id);
+            Flash::success('Team updated successfully.');
         } catch (ModelNotFoundException $ex) {
-            Flash::error('Admin not found.');
+            Flash::error('Team not found.');
         } catch (Exception $ex) {
-            Flash::error('Update admin account failed.');
+            Flash::error('Update team account failed.');
         }
 
-        return redirect(route('admin.admin-managements.index'));
+        return redirect(route('admin.team-managements.index'));
     }
 
     /**
-     * Remove the specified Admin from storage.
+     * Remove the specified Team from storage.
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return Response
      */
     public function destroy($id)
     {
         try {
-            $this->adminService->delete($id);
-            Flash::success('Admin deleted successfully.');
+            $this->teamService->delete($id);
+            Flash::success('Team deleted successfully.');
         } catch (ModelNotFoundException $ex) {
-            Flash::error('Admin not found.');
+            Flash::error('Team not found.');
         } catch (Exception $ex) {
-            Flash::error('Delete admin account failed.');
+            Flash::error('Delete team account failed.');
         }
 
-        return redirect(route('admin.admin-managements.index'));
+        return redirect(route('admin.team-managements.index'));
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\DataTables;
 
-use App\Models\Admin;
+use App\Models\Team;
 use Form;
 use Yajra\Datatables\Services\DataTable;
 
-class AdminDataTable extends DataTable
+class TeamDataTable extends DataTable
 {
 
     /**
@@ -16,22 +16,11 @@ class AdminDataTable extends DataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->orderColumn('admins.id', '-admins.id $1')
+            ->orderColumn('teams.id', '-teams.id $1')
             ->escapeColumns([
                 'name',
-                'username',
-                'email',
-                'birthday',
-                'gender',
-                'phone',
             ])
-            ->editColumn('role', function ($admin) {
-                return Admin::$roles[$admin->role] ?? null;
-            })
-            ->editColumn('gender', function ($admin) {
-                return Admin::$genders[$admin->gender] ?? null;
-            })
-            ->addColumn('action', 'backend.admins.datatables_actions')
+            ->addColumn('action', 'backend.teams.datatables_actions')
             ->make(true);
     }
 
@@ -42,20 +31,19 @@ class AdminDataTable extends DataTable
      */
     public function query()
     {
-        $admins = Admin::query();
-        $admins->select([
-            'admins.id',
-            'admins.name',
-            'admins.username',
-            'admins.email',
-            'admins.birthday',
-            'admins.gender',
-            'admins.phone',
-            'admins.role',
-            'admins.created_at',
+        $teams = Team::query();
+        $teams->with([
+            'admin' => function ($q) {
+                $q->select(['id', 'name']);
+            }
+        ])->select([
+            'teams.id',
+            'teams.name',
+            'teams.created_at',
+            'teams.admin_id'
         ]);
 
-        return $this->applyScopes($admins);
+        return $this->applyScopes($teams);
     }
 
     /**
@@ -99,14 +87,10 @@ class AdminDataTable extends DataTable
     private function getColumns()
     {
         return [
-            'id' => ['name' => 'admins.id', 'data' => 'id'],
-            'name' => ['name' => 'admins.name', 'data' => 'name'],
-            'username' => ['name' => 'admins.username', 'data' => 'username'],
-            'email' => ['name' => 'admins.email', 'data' => 'email'],
-            'birthday' => ['name' => 'admins.birthday', 'data' => 'birthday'],
-            'gender' => ['name' => 'admins.gender', 'data' => 'gender'],
-            'phone' => ['name' => 'admins.phone', 'data' => 'phone'],
-            'role' => ['name' => 'admins.role', 'data' => 'role']
+            'id' => ['name' => 'teams.id', 'data' => 'id'],
+            'name' => ['name' => 'teams.name', 'data' => 'name'],
+            'creator' => ['name' => 'admin.name', 'data' => 'admin.name'],
+            'created_at' => ['name' => 'teams.created_at', 'data' => 'created_at'],
         ];
     }
 
@@ -117,6 +101,6 @@ class AdminDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'admins';
+        return 'teams';
     }
 }

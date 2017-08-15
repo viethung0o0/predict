@@ -26,7 +26,7 @@ $factory->define(App\Models\Admin::class, function () use ($faker) {
         'remember_token' => str_random(10),
         'username' => $faker->userName,
         'birthday' => $faker->dateTime($max = '-10 years', $timezone = date_default_timezone_get()),
-        'gender' => $faker->randomElement(["male", "female"]),
+        'gender' => $faker->randomElement(\App\Models\Admin::$genders),
         'phone' => $faker->phoneNumber(),
         'created_at' => Carbon::now(),
         'updated_at' => Carbon::now(),

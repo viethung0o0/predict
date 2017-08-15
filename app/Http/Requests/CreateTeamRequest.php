@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Admin;
+use App\Models\Team;
 
-class CreateAdminRequest extends FormRequest
+class CreateTeamRequest extends FormRequest
 {
 
     /**
@@ -25,6 +25,6 @@ class CreateAdminRequest extends FormRequest
      */
     public function rules()
     {
-        return Admin::$createRules;
+        return Team::$createRules;
     }
 }

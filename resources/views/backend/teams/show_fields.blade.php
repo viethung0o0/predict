@@ -28,24 +28,6 @@
     <p>{!! $admin->birthday !!}</p>
 </div>
 
-<!-- Gender Field -->
-<div class="form-group">
-    {!! Form::label('gender', 'Gender:') !!}
-    <p>{!! $admin->gender !!}</p>
-</div>
-
-<!-- Phone Field -->
-<div class="form-group">
-    {!! Form::label('phone', 'Phone:') !!}
-    <p>{!! $admin->phone !!}</p>
-</div>
-
-<!-- Role Field -->
-<div class="form-group">
-    {!! Form::label('role', 'Role:') !!}
-    <p>{!! $admin->role !!}</p>
-</div>
-
 <!-- Created At Field -->
 <div class="form-group">
     {!! Form::label('created_at', 'Created At:') !!}

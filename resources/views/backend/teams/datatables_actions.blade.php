@@ -1,9 +1,9 @@
-{!! Form::open(['route' => ['admin.admin-managements.destroy', $id], 'method' => 'delete']) !!}
+{!! Form::open(['route' => ['admin.team-managements.destroy', $id], 'method' => 'delete']) !!}
 <div class='btn-group'>
-    <a href="{{ route('admin.admin-managements.show', $id) }}" class='btn btn-default btn-xs'>
+    <a href="{{ route('admin.team-managements.show', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-eye-open"></i>
     </a>
-    <a href="{{ route('admin.admin-managements.edit', $id) }}" class='btn btn-default btn-xs'>
+    <a href="{{ route('admin.team-managements.edit', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-edit"></i>
     </a>
     {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', [

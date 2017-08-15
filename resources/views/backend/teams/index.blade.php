@@ -5,7 +5,7 @@
         <h1 class="pull-left">Admins</h1>
         <h1 class="pull-right">
             <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px"
-               href="{!! route('admin.admin-managements.create') !!}">Add New</a>
+               href="{!! route('admin.team-managements.create') !!}">Add New</a>
         </h1>
     </section>
     <div class="content">
@@ -16,7 +16,7 @@
         <div class="clearfix"></div>
         <div class="box box-primary">
             <div class="box-body">
-                @include('backend.admins.table')
+                @include('backend.teams.table')
             </div>
         </div>
     </div>

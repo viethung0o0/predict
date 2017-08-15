@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Admin;
+use App\Models\Team;
 
-class UpdateAdminRequest extends FormRequest
+class UpdateTeamRequest extends FormRequest
 {
 
     /**
@@ -25,12 +25,10 @@ class UpdateAdminRequest extends FormRequest
      */
     public function rules()
     {
-        $adminID = $this->route('admin_management');
+        $teamID = $this->route('team_management');
 
-        $rules = array_merge(Admin::$updateRules, [
-            'username' => "required|unique:admins,username,$adminID|max:255",
-            'email' => "required|email|unique:admins,email,$adminID|max:255",
-            'password' => 'confirmed|max:20'
+        $rules = array_merge(Team::$updateRules, [
+            'name' => "required|unique:teams,name,$teamID|max:255",
         ]);
 
         return $rules;

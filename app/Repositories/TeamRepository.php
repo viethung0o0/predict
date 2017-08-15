@@ -2,32 +2,28 @@
 
 namespace App\Repositories;
 
-use App\Models\Admin;
+use App\Models\Team;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
  * Class AdminRepository
+ *
  * @package App\Repositories
  * @version August 13, 2017, 9:05 am UTC
  *
- * @method Admin findWithoutFail($id, $columns = ['*'])
- * @method Admin find($id, $columns = ['*'])
- * @method Admin first($columns = ['*'])
-*/
-class AdminRepository extends BaseRepository
+ * @method Team findWithoutFail($id, $columns = ['*'])
+ * @method Team find($id, $columns = ['*'])
+ * @method Team first($columns = ['*'])
+ */
+class TeamRepository extends BaseRepository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
         'name',
-        'username',
-        'email',
-        'password',
-        'birthday',
-        'gender',
-        'phone',
-        'role'
+        'description',
+        'admin_id',
     ];
 
     /**
@@ -35,6 +31,6 @@ class AdminRepository extends BaseRepository
      **/
     public function model()
     {
-        return Admin::class;
+        return Team::class;
     }
 }

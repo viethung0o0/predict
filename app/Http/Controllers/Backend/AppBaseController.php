@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
 
 use InfyOm\Generator\Utils\ResponseUtil;
 use Response;
+use App\Http\Controllers\Controller;
 
 /**
  * @SWG\Swagger(

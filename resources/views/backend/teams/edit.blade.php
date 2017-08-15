@@ -11,9 +11,9 @@
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($admin, ['route' => ['admin.admin-managements.update', $admin->id], 'method' => 'patch']) !!}
+                   {!! Form::model($admin, ['route' => ['admin.team-managements.update', $admin->id], 'method' => 'patch']) !!}
 
-                        @include('backend.admins.fields')
+                        @include('backend.teams.fields')
 
                    {!! Form::close() !!}
                </div>
