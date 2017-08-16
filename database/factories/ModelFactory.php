@@ -61,8 +61,12 @@ $factory->define(App\Models\Team::class, function () use ($faker) {
 
 $factory->define(App\Models\Event::class, function () use ($faker) {
 
+    $name = $faker->name;
+    $text = iconv('utf-8', 'us-ascii//TRANSLIT', $name);
+    $slug = strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $text));
+
     return [
-        'name' => $faker->name,
+        'name' => $name,
         'start_time_at' => $faker->dateTimeBetween(
             $startDate = '-5 months',
             $endDate = '-3 months',
@@ -73,7 +77,8 @@ $factory->define(App\Models\Event::class, function () use ($faker) {
             $endDate = '+2 months',
             $timezone = date_default_timezone_get()
         ),
-        'status' => \App\Models\Event::PUBLISH_STATUS,
+            'status' => \App\Models\Event::PUBLISH_STATUS,
+        'slug' => $slug,
         'description' => $faker->text,
         'created_at' => Carbon::now(),
         'updated_at' => Carbon::now(),

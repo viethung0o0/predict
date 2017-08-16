@@ -15,33 +15,25 @@
         <img class="champion-img img-responsive rounded mx-auto d-block" src="/img/champion.png"/>
         <p class="champion-text">The winner will receive a value of 1,000,000 vnd</p>
     </div>
-    {!! Form::open(['class' => 'form-inline']) !!}
+    {!! Form::open(['route' => ['frontend.predict.football.champion', request()->route()->slug], 'class' => 'form-inline']) !!}
     <div class="team">
         <div class="position">
             <span class="number">3rd</span>
         </div>
         <div class="team-group row">
             <div class="team-item team-first col">
-                <select class="form-control" name="team_1[]">
-                    <option value="1">Team 1</option>
-                    <option value="2">Team 2</option>
-                    <option value="3">Team 3</option>
-                    <option value="4">Team 4</option>
-                </select>
+                {!! Form::select('1[team_1][team_id]', $teams, null,['class' => 'form-control']) !!}
                 <div class="score-group">
-                    <input class="form-control" name="score_1[]" value=""/> <span class="score-text">Score</span>
+                    {!! Form::text('1[team_1][score]', null, ['class' => "form-control"]) !!}
+                    <span class="score-text">Score</span>
                 </div>
             </div>
             <div class="team-item team-second col">
                 <div class="score-group">
-                    <input class="form-control" name="score_1[]" value=""/> <span class="score-text">Score</span>
+                    {!! Form::text('1[team_2][team_id]', null, ['class' => "form-control"]) !!}
+                    <span class="score-text">Score</span>
                 </div>
-                <select class="form-control" name="team_1[]">
-                    <option value="1">Team 1</option>
-                    <option value="2">Team 2</option>
-                    <option value="3">Team 3</option>
-                    <option value="4">Team 4</option>
-                </select>
+                {!! Form::select('1[team_2][score]', $teams, null,['class' => 'form-control']) !!}
             </div>
         </div>
         <div class="position">
@@ -49,26 +41,18 @@
         </div>
         <div class="team-group row">
             <div class="team-item team-first col">
-                <select class="form-control" name="team_2[]">
-                    <option value="1">Team 1</option>
-                    <option value="2">Team 2</option>
-                    <option value="3">Team 3</option>
-                    <option value="4">Team 4</option>
-                </select>
+                {!! Form::select('3[team_1][team_id]', $teams, null,['class' => 'form-control']) !!}
                 <div class="score-group">
-                    <input class="form-control" name="score_2[]" value=""/> <span class="score-text">Score</span>
+                    {!! Form::text('3[team_1][score]', null, ['class' => "form-control"]) !!}
+                    <span class="score-text">Score</span>
                 </div>
             </div>
             <div class="team-item team-second col">
                 <div class="score-group">
-                    <input class="form-control" name="score_2[]" value=""/> <span class="score-text">Score</span>
+                    {!! Form::text('3[team_2][team_id]', null, ['class' => "form-control"]) !!}
+                    <span class="score-text">Score</span>
                 </div>
-                <select class="form-control" name="team_2[]">
-                    <option value="1">Team 1</option>
-                    <option value="2">Team 2</option>
-                    <option value="3">Team 3</option>
-                    <option value="4">Team 4</option>
-                </select>
+                {!! Form::select('3[team_2][score]', $teams, null,['class' => 'form-control']) !!}
             </div>
         </div>
     </div>
@@ -77,7 +61,7 @@
             <div class="predict-number col">
                 <p class="how-many">How many people have predict you?</p>
                 <div class="form-group">
-                    <input class="form-control" type="text" name="predict_number" value=""/>
+                    {!! Form::text('same_respondent_number', null, ['class' => 'form-control']) !!}
                 </div>
             </div>
             <div class="rules col">

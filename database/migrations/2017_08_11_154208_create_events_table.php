@@ -22,6 +22,7 @@ class CreateEventsTable extends Migration
             $table->tinyInteger('status')->default(1);
             $table->string('logo')->nullable();
             $table->text('description')->nullable();
+            $table->string('slug');
             $table->timestamps();
         });
     }

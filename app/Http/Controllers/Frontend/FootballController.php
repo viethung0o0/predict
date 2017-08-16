@@ -3,19 +3,48 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Service\FootballPredictPositionService;
+use Exception;
 
 class FootballController extends Controller
 {
-    public function __construct()
+
+    private $predictService;
+
+    public function __construct(FootballPredictPositionService $predictService)
     {
+        $this->predictService = $predictService;
     }
 
-    public function predictChampion()
+    public function showPredictPosition($eventSlug)
     {
+        try {
+            $data = $this->predictService->getDataWhenShow($eventSlug);
+        } catch (Exception $ex) {
+            //
+        }
+
+        return view('frontend.football', $data);
+    }
+
+    public function predictPosition(Request $request, $eventSlug)
+    {
+        try {
+            $data = $request->only([
+                1,
+                3,
+                'same_respondent_number'
+            ]);
+            $this->predictService->createPredict($eventSlug, $data);
+        } catch (Exception $ex) {
+            //
+        }
+
         return view('frontend.football');
     }
 
-    public function predictWinByDay()
+    public function showPredictWinByDay()
     {
 
     }

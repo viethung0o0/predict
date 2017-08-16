@@ -18,9 +18,14 @@ class EventsTableSeeder extends Seeder
         $teams = [];
 
         for ($i = 1; $i <= 10; $i++) {
+            $name = "event_$i";
+            $text = iconv('utf-8', 'us-ascii//TRANSLIT', $name);
+            $slug = strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $text));
+
             $teams[] = factory(Event ::class)->make([
-                'name' => "event_$i",
-                'admin_id' => $admins->random()->id
+                'name' => $name,
+                'admin_id' => $admins->random()->id,
+                'slug' => $slug
             ])->toArray();
         }
 
