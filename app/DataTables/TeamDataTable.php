@@ -104,3 +104,4 @@ class TeamDataTable extends DataTable
         return 'teams';
     }
 }
+

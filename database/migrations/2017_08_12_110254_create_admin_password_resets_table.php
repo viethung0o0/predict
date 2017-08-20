@@ -30,3 +30,4 @@ class CreateAdminPasswordResetsTable extends Migration
         Schema::dropIfExists('admin_password_resets');
     }
 }
+

@@ -22,18 +22,18 @@
         </div>
         <div class="team-group row">
             <div class="team-item team-first col">
-                {!! Form::select('1[team_1][team_id]', $teams, null,['class' => 'form-control']) !!}
+                {!! Form::select('1[team_1][team_id]', $teams, $footballPredictions[1]['team_1'] ?? null, ['class' => 'form-control']) !!}
                 <div class="score-group">
-                    {!! Form::text('1[team_1][score]', null, ['class' => "form-control"]) !!}
+                    {!! Form::text('1[team_1][score]', $footballPredictions[1]['score_1'] ?? null, ['class' => "form-control"]) !!}
                     <span class="score-text">Score</span>
                 </div>
             </div>
             <div class="team-item team-second col">
                 <div class="score-group">
-                    {!! Form::text('1[team_2][team_id]', null, ['class' => "form-control"]) !!}
+                    {!! Form::text('1[team_2][team_id]', $footballPredictions[1]['team_2'] ?? null, ['class' => "form-control"]) !!}
                     <span class="score-text">Score</span>
                 </div>
-                {!! Form::select('1[team_2][score]', $teams, null,['class' => 'form-control']) !!}
+                {!! Form::select('1[team_2][score]', $teams, $footballPredictions[1]['score_2'] ?? null, ['class' => 'form-control']) !!}
             </div>
         </div>
         <div class="position">
@@ -41,18 +41,18 @@
         </div>
         <div class="team-group row">
             <div class="team-item team-first col">
-                {!! Form::select('3[team_1][team_id]', $teams, null,['class' => 'form-control']) !!}
+                {!! Form::select('3[team_1][team_id]', $teams, $footballPredictions[3]['team_1'] ?? null,['class' => 'form-control']) !!}
                 <div class="score-group">
-                    {!! Form::text('3[team_1][score]', null, ['class' => "form-control"]) !!}
+                    {!! Form::text('3[team_1][score]', $footballPredictions[3]['score_1'] ?? null, ['class' => "form-control"]) !!}
                     <span class="score-text">Score</span>
                 </div>
             </div>
             <div class="team-item team-second col">
                 <div class="score-group">
-                    {!! Form::text('3[team_2][team_id]', null, ['class' => "form-control"]) !!}
+                    {!! Form::text('3[team_2][team_id]', $footballPredictions[3]['team_2'] ?? null, ['class' => "form-control"]) !!}
                     <span class="score-text">Score</span>
                 </div>
-                {!! Form::select('3[team_2][score]', $teams, null,['class' => 'form-control']) !!}
+                {!! Form::select('3[team_2][score]', $teams, $footballPredictions[3]['score_2'] ?? null,['class' => 'form-control']) !!}
             </div>
         </div>
     </div>
@@ -61,7 +61,7 @@
             <div class="predict-number col">
                 <p class="how-many">How many people have predict you?</p>
                 <div class="form-group">
-                    {!! Form::text('same_respondent_number', null, ['class' => 'form-control']) !!}
+                    {!! Form::text('same_respondent_number', $sameRespondentNumber ?? null, ['class' => 'form-control']) !!}
                 </div>
             </div>
             <div class="rules col">

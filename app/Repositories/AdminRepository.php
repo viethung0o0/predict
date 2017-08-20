@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Admin;
-use InfyOm\Generator\Common\BaseRepository;
 
 /**
  * Class AdminRepository
@@ -38,3 +37,4 @@ class AdminRepository extends BaseRepository
         return Admin::class;
     }
 }
+

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use Exception;
+use Prettus\Repository\Events\RepositoryEntityDeleted;
 
 abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepository
 {
@@ -13,6 +14,29 @@ abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepositor
         } catch (Exception $e) {
             return;
         }
+    }
+
+    /**
+     * Retrieve first data of repository, or create new Entity
+     *
+     * @param array $attributes
+     *
+     * @return mixed
+     */
+    public function firstOrCreate(array $attributes = [], array $values = [])
+    {
+        $this->applyCriteria();
+        $this->applyScope();
+
+        $temporarySkipPresenter = $this->skipPresenter;
+        $this->skipPresenter(true);
+
+        $model = $this->model->firstOrCreate($attributes, $values);
+        $this->skipPresenter($temporarySkipPresenter);
+
+        $this->resetModel();
+
+        return $this->parserResult($model);
     }
 
     public function create(array $attributes)
@@ -100,4 +124,30 @@ abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepositor
 
         return $model;
     }
+
+    /**
+     * Delete a entity in repository by id
+     *
+     * @param $ids
+     *
+     * @return int
+     */
+    public function deletes(array $ids)
+    {
+        $this->applyScope();
+
+        $temporarySkipPresenter = $this->skipPresenter;
+        $this->skipPresenter(true);
+
+        $model = $this->model->whereIn('id', $ids);
+        $originalModel = clone $model;
+
+        $this->skipPresenter($temporarySkipPresenter);
+        $this->resetModel();
+
+        $deleted = $model->delete();
+
+        return $deleted;
+    }
 }
+

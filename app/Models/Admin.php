@@ -161,3 +161,5 @@ class Admin extends Authenticatable
         return $this->hasMany(Team::class, 'admin_id', 'id');
     }
 }
+
+

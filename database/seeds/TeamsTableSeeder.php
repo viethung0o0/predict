@@ -27,3 +27,4 @@ class TeamsTableSeeder extends Seeder
         Team::insert($teams);
     }
 }
+

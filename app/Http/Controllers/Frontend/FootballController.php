@@ -36,12 +36,14 @@ class FootballController extends Controller
                 3,
                 'same_respondent_number'
             ]);
-            $this->predictService->createPredict($eventSlug, $data);
+            $this->predictService->predictFootball($eventSlug, $data, [
+                'position' => [1, 2]
+            ]);
         } catch (Exception $ex) {
             //
         }
 
-        return view('frontend.football');
+        return back();
     }
 
     public function showPredictWinByDay()

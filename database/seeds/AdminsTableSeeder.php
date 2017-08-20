@@ -23,3 +23,4 @@ class AdminsTableSeeder extends Seeder
         Admin::insert($admins);
     }
 }
+

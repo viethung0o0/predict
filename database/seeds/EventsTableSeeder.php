@@ -32,3 +32,4 @@ class EventsTableSeeder extends Seeder
         Event::insert($teams);
     }
 }
+

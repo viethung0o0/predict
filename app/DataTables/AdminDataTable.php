@@ -120,3 +120,4 @@ class AdminDataTable extends DataTable
         return 'admins';
     }
 }
+

@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Team;
-use InfyOm\Generator\Common\BaseRepository;
 
 /**
  * Class AdminRepository
@@ -34,3 +33,4 @@ class TeamRepository extends BaseRepository
         return Team::class;
     }
 }
+

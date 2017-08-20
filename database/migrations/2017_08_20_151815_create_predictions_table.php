@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTeamsTable extends Migration
+class CreatePredictionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateTeamsTable extends Migration
      */
     public function up()
     {
-        Schema::create('teams', function (Blueprint $table) {
+        Schema::create('predictions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();
-            $table->integer('admin_id')->unsigned();
-            $table->text('description')->nullable();
+            $table->integer('user_id')->unsigned();
+            $table->integer('event_id')->unsigned();
+            $table->smallInteger('type')->default(1);
+            $table->integer('same_respondent_number')->index();
+            $table->date('date')->nullable();
             $table->timestamps();
         });
     }
@@ -29,7 +31,7 @@ class CreateTeamsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('teams');
+        Schema::dropIfExists('predictions');
     }
 }
 

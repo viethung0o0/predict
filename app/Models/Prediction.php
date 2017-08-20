@@ -4,15 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FootballPrediction extends Model
+class Prediction extends Model
 {
+    const POSITION_PREDICT_TYPE = 1;
+
+    const DAY_PREDICT_TYPE = 2;
 
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'football_predictions';
+    protected $table = 'predictions';
 
     /**
      * The attributes that are mass assignable.
@@ -21,12 +24,11 @@ class FootballPrediction extends Model
      */
     protected $fillable = [
         'user_id',
-        'team_1',
-        'score_1',
-        'team_2',
-        'score_2',
+        'event_id',
         'prediction_id',
-        'position'
+        'status',
+        'same_respondent_number',
+        'date',
+        'type'
     ];
 }
-

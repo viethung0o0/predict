@@ -15,3 +15,4 @@ class UsersTableSeeder extends Seeder
         factory(User::class, 100)->create();
     }
 }
+

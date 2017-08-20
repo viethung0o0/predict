@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Event;
-use InfyOm\Generator\Common\BaseRepository;
 
 /**
  * Class AdminRepository
@@ -26,3 +25,4 @@ class EventRepository extends BaseRepository
         return Event::class;
     }
 }
+

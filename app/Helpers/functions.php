@@ -23,6 +23,7 @@ if (!function_exists('currentLoginUser')) {
      */
     function currentLoginUser()
     {
+        return auth()->loginUsingId(1);
         return auth('admin_web')->user();
     }
 }

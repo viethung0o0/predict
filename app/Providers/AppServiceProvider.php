@@ -106,3 +106,4 @@ class AppServiceProvider extends ServiceProvider
 //        $this->app->bind(AdminRepository::class);
     }
 }
+
