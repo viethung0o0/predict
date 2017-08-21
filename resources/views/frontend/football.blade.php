@@ -9,50 +9,94 @@
     <link rel="stylesheet" href="/css/predict-football.css"/>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light static-top sb-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="/">NEOLAB VN</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" style="">
+            Menu
+            <i class="fa fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav mr-auto">
+                @foreach($events as $item)
+                    <li class="nav-item">
+                        <a class="nav-link" href="{!! route('frontend.predict.football', $item->slug) !!}" title="Contact Start Bootstrap">{{$item->name}}</a>
+                    </li>
+                @endforeach
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdownPremium" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @if(auth()->check())
+                            <img class="img-responsive user-avatar" src="{!! auth()->user()->avatar !!}"/>
+                            Hi! {!! auth()->user()->name !!}
+                        @else
+                            Hi!
+                        @endif
+                    </a>
+                    @if(auth()->check())
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownPremium">
+                        <a class="dropdown-item" href="{!! route('frontend.auth.logout') !!}">
+                            <i class="icon-pencil fa-fw"></i>
+                            Logout
+                        </a>
+                    </div>
+                    @endif
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#searchModal">
+                        <i class="icon-magnifier"></i>
+                        <span class="d-lg-none">Search</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 <div class="container predict-champion">
     <h1 class="title">Neolab champion ship 2017</h1>
     <div class="champion-tropy">
         <img class="champion-img img-responsive rounded mx-auto d-block" src="/img/champion.png"/>
-        <p class="champion-text">The winner will receive a value of 1,000,000 vnd</p>
+        <p class="champion-text">The winner will receive a value of {!! number_format($event['prize_value'], 0) !!} vnd</p>
     </div>
-    {!! Form::open(['route' => ['frontend.predict.football.champion', request()->route()->slug], 'class' => 'form-inline']) !!}
+    {!! Form::open(['route' => ['frontend.predict.football', request()->route()->slug], 'class' => 'form-inline']) !!}
     <div class="team">
         <div class="position">
-            <span class="number">3rd</span>
+            <span class="number">1rd</span>
         </div>
         <div class="team-group row">
             <div class="team-item team-first col">
-                {!! Form::select('1[team_1][team_id]', $teams, $footballPredictions[1]['team_1'] ?? null, ['class' => 'form-control']) !!}
+                {!! Form::select('1[team_1][team_id]', $teams, $footballPredictions[1]['team_1'] ?? null, ['class' => 'form-control', 'required']) !!}
                 <div class="score-group">
-                    {!! Form::text('1[team_1][score]', $footballPredictions[1]['score_1'] ?? null, ['class' => "form-control"]) !!}
+                    {!! Form::number('1[team_1][score]', $footballPredictions[1]['score_1'] ?? null, ['class' => "form-control", 'required', 'min' => 0]) !!}
                     <span class="score-text">Score</span>
                 </div>
             </div>
             <div class="team-item team-second col">
                 <div class="score-group">
-                    {!! Form::text('1[team_2][team_id]', $footballPredictions[1]['team_2'] ?? null, ['class' => "form-control"]) !!}
+                    {!! Form::number('1[team_2][team_id]', $footballPredictions[1]['team_2'] ?? null, ['class' => "form-control", 'required', 'min' => 0]) !!}
                     <span class="score-text">Score</span>
                 </div>
-                {!! Form::select('1[team_2][score]', $teams, $footballPredictions[1]['score_2'] ?? null, ['class' => 'form-control']) !!}
+                {!! Form::select('1[team_2][score]', $teams, $footballPredictions[1]['score_2'] ?? null, ['class' => 'form-control', 'required']) !!}
             </div>
         </div>
         <div class="position">
-            <span class="number">1st</span>
+            <span class="number">3st</span>
         </div>
         <div class="team-group row">
             <div class="team-item team-first col">
-                {!! Form::select('3[team_1][team_id]', $teams, $footballPredictions[3]['team_1'] ?? null,['class' => 'form-control']) !!}
+                {!! Form::select('3[team_1][team_id]', $teams, $footballPredictions[3]['team_1'] ?? null,['class' => 'form-control', 'required']) !!}
                 <div class="score-group">
-                    {!! Form::text('3[team_1][score]', $footballPredictions[3]['score_1'] ?? null, ['class' => "form-control"]) !!}
+                    {!! Form::number('3[team_1][score]', $footballPredictions[3]['score_1'] ?? null, ['class' => "form-control", 'required', 'min' => 0]) !!}
                     <span class="score-text">Score</span>
                 </div>
             </div>
             <div class="team-item team-second col">
                 <div class="score-group">
-                    {!! Form::text('3[team_2][team_id]', $footballPredictions[3]['team_2'] ?? null, ['class' => "form-control"]) !!}
+                    {!! Form::number('3[team_2][team_id]', $footballPredictions[3]['team_2'] ?? null, ['class' => "form-control", 'required', 'min' => 0]) !!}
                     <span class="score-text">Score</span>
                 </div>
-                {!! Form::select('3[team_2][score]', $teams, $footballPredictions[3]['score_2'] ?? null,['class' => 'form-control']) !!}
+                {!! Form::select('3[team_2][score]', $teams, $footballPredictions[3]['score_2'] ?? null,['class' => 'form-control', 'required']) !!}
             </div>
         </div>
     </div>
@@ -61,7 +105,7 @@
             <div class="predict-number col">
                 <p class="how-many">How many people have predict you?</p>
                 <div class="form-group">
-                    {!! Form::text('same_respondent_number', $sameRespondentNumber ?? null, ['class' => 'form-control']) !!}
+                    {!! Form::number('same_respondent_number', $sameRespondentNumber ?? null, ['class' => 'form-control', 'required', 'min' => 0]) !!}
                 </div>
             </div>
             <div class="rules col">
@@ -74,7 +118,13 @@
             </div>
         </div>
         <div class="predict-choose">
-            {!! Form::submit('Predict', ['class' => 'btn btn-predict']) !!}
+            @if(auth()->check())
+                {!! Form::submit('Predict', ['class' => 'btn btn-predict']) !!}
+            @else
+                <a href="{!! route('frontend.auth.redirect') !!}" class="btn btn-block btn-social btn-google">
+                    <span class="fa fa-google"></span> Sign in
+                </a>
+            @endif
             <p>Good luck to you</p>
         </div>
     </div>
@@ -86,5 +136,6 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+<script src="https://use.fontawesome.com/4fb74957ec.js"></script>
 </body>
 </html>

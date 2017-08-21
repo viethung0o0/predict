@@ -19,11 +19,12 @@ if (!function_exists('currentLoginUser')) {
     /**
      * Get current login user
      *
+     * @param string $guard Guard
+     *
      * @return \App\Models\Admin
      */
-    function currentLoginUser()
+    function currentLoginUser($guard = null)
     {
-        return auth()->loginUsingId(1);
-        return auth('admin_web')->user();
+        return auth($guard ?: 'admin_web')->user();
     }
 }

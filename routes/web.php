@@ -32,4 +32,5 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Backend', 'as' => 'admin.'], 
 
 Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
     require __DIR__ . '/web/frontend/football.php';
+    require __DIR__ . '/web/frontend/auth.php';
 });

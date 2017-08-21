@@ -21,6 +21,7 @@ class CreateEventsTable extends Migration
             $table->timestamp('end_time_at')->nullable()->index();
             $table->tinyInteger('status')->default(1);
             $table->string('logo')->nullable();
+            $table->integer('prize_value')->default(0);
             $table->text('description')->nullable();
             $table->string('slug');
             $table->timestamps();

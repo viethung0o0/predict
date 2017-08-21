@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Service\FootballPredictPositionService;
 use Exception;
+use App\Repositories\Traits\EloquentTransactional;
 
 class FootballController extends Controller
 {
 
+    use EloquentTransactional;
     private $predictService;
 
     public function __construct(FootballPredictPositionService $predictService)
@@ -31,6 +33,8 @@ class FootballController extends Controller
     public function predictPosition(Request $request, $eventSlug)
     {
         try {
+            $this->beginTransaction();
+
             $data = $request->only([
                 1,
                 3,
@@ -39,7 +43,10 @@ class FootballController extends Controller
             $this->predictService->predictFootball($eventSlug, $data, [
                 'position' => [1, 2]
             ]);
+
+            $this->commit();
         } catch (Exception $ex) {
+            $this->rollback();
             //
         }
 

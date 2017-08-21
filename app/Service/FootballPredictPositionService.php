@@ -55,35 +55,42 @@ class FootballPredictPositionService
      */
     public function getDataWhenShow(string $eventSlug)
     {
-        $event = $this->eventRepo->pushCriteria(new SlugCriteria($eventSlug))->first(['id']);
+        $data['event'] = $this->eventRepo->pushCriteria(new SlugCriteria($eventSlug))->first(['id', 'prize_value']);
 
-        $teams = $this->teamRepo->all([
+        $data['teams'] = $this->teamRepo->all([
             'id',
             'name'
         ])->pluck('name', 'id');
 
+        if (auth()->guest()) {
+            return $data;
+        }
+
+        $userID = currentLoginUser('web')->id;
+
         $prediction = $this->predictionRepo->pushCriteria(new FootballPredictionCriteria(
-                $event->id,
-                currentLoginUser()->id)
+                $data['event']->id,
+                $userID)
         )->first(['id', 'same_respondent_number']);
 
-        $footballPredictions = $this->footballPredictionRepo->pushCriteria(new PositionPredictionCriteria([
-            'prediction_id' => $prediction,
-            'user_id' => currentLoginUser()->id,
-            'position' => [1, 3]
-        ]))->all([
-            'team_1',
-            'team_2',
-            'score_1',
-            'score_2',
-            'position',
-        ])->keyBy('position')->toArray();
+        if ($prediction) {
+            $data['footballPredictions'] = $this->footballPredictionRepo->pushCriteria(new PositionPredictionCriteria([
+                'prediction_id' => $prediction,
+                'user_id' => $userID,
+                'position' => [1, 3]
+            ]))->all([
+                'team_1',
+                'team_2',
+                'score_1',
+                'score_2',
+                'position',
+            ])->keyBy('position')->toArray();
 
-        return [
-            'teams' => $teams,
-            'footballPredictions' => $footballPredictions,
-            'sameRespondentNumber' => $prediction->same_respondent_number,
-        ];
+            $data['sameRespondentNumber'] = $prediction->same_respondent_number;
+        }
+
+
+        return $data;
     }
 
     public function predictFootball(string $eventSlug, array $data, array $params)
@@ -104,7 +111,7 @@ class FootballPredictPositionService
     public function deletePositionPrediction($predictionID, $data)
     {
         $params = [
-            'user_id' => currentLoginUser()->id,
+            'user_id' => currentLoginUser('web')->id,
             'prediction_id' => $predictionID,
             'position' => $data['position']
         ];
@@ -124,7 +131,7 @@ class FootballPredictPositionService
     {
         //Set data for 1st
         $input1st = [
-            'user_id' => currentLoginUser()->id,
+            'user_id' => currentLoginUser('web')->id,
             'position' => 1,
             'team_1' => $data[1]['team_1']['team_id'],
             'team_2' => $data[1]['team_2']['team_id'],
@@ -135,7 +142,7 @@ class FootballPredictPositionService
 
         //Set data for 1st
         $input3st = [
-            'user_id' => currentLoginUser()->id,
+            'user_id' => currentLoginUser('web')->id,
             'position' => 3,
             'team_1' => $data[3]['team_1']['team_id'],
             'team_2' => $data[3]['team_2']['team_id'],
@@ -150,7 +157,7 @@ class FootballPredictPositionService
 
     public function createOrNewPrediction(int $eventID, int $type, array $params = [])
     {
-        $userID = currentLoginUser()->id;
+        $userID = currentLoginUser('web')->id;
 
         $prediction = $this->predictionRepo->firstOrCreate([
             'event_id' => $eventID,
