@@ -32,7 +32,7 @@ class FootballPredictionCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        $model->where('event_id', $this->eventID)
+        $model = $model->where('event_id', $this->eventID)
             ->where('user_id', $this->userID)
             ->where('type', Prediction::POSITION_PREDICT_TYPE);
 

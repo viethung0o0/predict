@@ -94,6 +94,20 @@ class AppServiceProvider extends ServiceProvider
             return false;
         });
 
+        app('validator')->extend('predict_footbal_unique', function ($attribute, $value, $parameters, $validator) {
+            $data = $validator->getData();
+
+            $team = [
+                '1.team_1.team_id' => $data[1]['team_1']['team_id'],
+                '1.team_2.team_id' => $data[1]['team_2']['team_id'],
+                '3.team_1.team_id' => $data[3]['team_1']['team_id'],
+                '3.team_2.team_id' => $data[3]['team_2']['team_id'],
+            ];
+            unset($team[$attribute]);
+
+            return !in_array($value, $team);
+        });
+
     }
 
     /**

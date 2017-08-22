@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Service\FootballPredictPositionService;
 use Exception;
 use App\Repositories\Traits\EloquentTransactional;
+use App\Http\Requests\FootballPredictRequest;
 
 class FootballController extends Controller
 {
@@ -24,13 +25,14 @@ class FootballController extends Controller
         try {
             $data = $this->predictService->getDataWhenShow($eventSlug);
         } catch (Exception $ex) {
+            dd($ex->getMessage());
             //
         }
 
         return view('frontend.football', $data);
     }
 
-    public function predictPosition(Request $request, $eventSlug)
+    public function predictPosition(FootballPredictRequest $request, $eventSlug)
     {
         try {
             $this->beginTransaction();
@@ -45,7 +47,9 @@ class FootballController extends Controller
             ]);
 
             $this->commit();
+            session()->flash('success', 'Football successfully predicted');
         } catch (Exception $ex) {
+            session()->flash('error', 'Football predict error');
             $this->rollback();
             //
         }

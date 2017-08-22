@@ -9,10 +9,17 @@
 namespace App\Service;
 
 use App\Repositories\UserRepository;
+use Symfony\Component\Routing\Exception\InvalidParameterException;
 
 class GoogleAuthService
 {
     private $userRepo;
+
+    private $emailValid = [
+        'neo-lab.vn',
+        'neo-lab.co.jp',
+        'neo-lab.career.jp'
+    ];
 
     public function __construct(UserRepository $userRepo)
     {
@@ -21,6 +28,10 @@ class GoogleAuthService
 
     public function loginGoogle($googleUser)
     {
+        if (!$this->checkEmailIsValid($googleUser->getEmail())) {
+            throw new InvalidParameterException('You must use @neo-lab.vn, @neo-lab.co.jp, @neo-lab.career.jp email to predict.');
+        }
+
         $username = $googleUser->getNickname() ?: str_replace(' ', '_', $googleUser->getName() . $googleUser->getId());
 
         $user = $this->userRepo->firstOrCreate([
@@ -40,5 +51,12 @@ class GoogleAuthService
         auth()->login($user);
 
         return $user;
+    }
+
+    public function checkEmailIsValid($email)
+    {
+        list($account, $domain) = explode('@', $email);
+
+        return in_array($domain, $this->emailValid);
     }
 }

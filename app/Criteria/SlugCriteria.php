@@ -29,7 +29,8 @@ class SlugCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        $model->where('slug', $this->slug);
+        $model = $model->where('slug', $this->slug);
+
         return $model;
     }
 }

@@ -30,7 +30,7 @@ class PositionPredictionCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        $model->where('user_id', $this->data['user_id'])
+        $model = $model->where('user_id', $this->data['user_id'])
             ->where('prediction_id', $this->data['prediction_id'])
             ->whereIn('position', $this->data['position']);
 

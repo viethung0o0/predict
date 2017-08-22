@@ -60,7 +60,7 @@ class FootballPredictPositionService
         $data['teams'] = $this->teamRepo->all([
             'id',
             'name'
-        ])->pluck('name', 'id');
+        ])->pluck('name', 'id')->prepend('Select', '');
 
         if (auth()->guest()) {
             return $data;
@@ -75,7 +75,7 @@ class FootballPredictPositionService
 
         if ($prediction) {
             $data['footballPredictions'] = $this->footballPredictionRepo->pushCriteria(new PositionPredictionCriteria([
-                'prediction_id' => $prediction,
+                'prediction_id' => $prediction->id,
                 'user_id' => $userID,
                 'position' => [1, 3]
             ]))->all([
@@ -159,7 +159,7 @@ class FootballPredictPositionService
     {
         $userID = currentLoginUser('web')->id;
 
-        $prediction = $this->predictionRepo->firstOrCreate([
+        $prediction = $this->predictionRepo->updateOrCreate([
             'event_id' => $eventID,
             'user_id' => $userID,
             'type' => $type
