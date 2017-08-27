@@ -24,17 +24,12 @@ class FootballPredictRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            '1.team_1.team_id' => 'required|different:1.team_2.team_id|integer|min:0',
-            '1.team_1.score' => 'required',
-            '1.team_2.team_id' => 'required|integer|min:0',
-            '1.team_2.score' => 'required',
-            '3.team_1.team_id' => 'required|different:3.team_2.team_id|integer|min:0|predict_footbal_unique',
-            '3.team_1.score' => 'required',
-            '3.team_2.team_id' => 'required|integer|min:0|predict_footbal_unique',
-            '3.team_2.score' => 'required',
-            'same_respondent_number' => 'required'
-        ];
+        if ($this->has('score')) {
+            return $this->getRuleFootballByDay();
+        }
+
+        return $this->getRuleFootballChampion();
+
     }
 
     public function formatErrors(Validator $validator)
@@ -55,6 +50,30 @@ class FootballPredictRequest extends FormRequest
             '3.team_2.team_id' => 'Team B',
             '3.team_2.score' => 'Score B',
             'same_respondent_number' => 'Number of predictions'
+        ];
+    }
+
+    private function getRuleFootballByDay()
+    {
+        return [
+            'score.*' => 'required',
+            'score.*.*' => 'required|integer|min:0',
+            'same_respondent_number' => 'required'
+        ];
+    }
+
+    private function getRuleFootballChampion()
+    {
+        return [
+            '1.team_1.team_id' => 'required|different:1.team_2.team_id|integer|min:0',
+            '1.team_1.score' => 'required',
+            '1.team_2.team_id' => 'required|integer|min:0',
+            '1.team_2.score' => 'required',
+            '3.team_1.team_id' => 'required|different:3.team_2.team_id|integer|min:0|predict_footbal_unique',
+            '3.team_1.score' => 'required',
+            '3.team_2.team_id' => 'required|integer|min:0|predict_footbal_unique',
+            '3.team_2.score' => 'required',
+            'same_respondent_number' => 'required'
         ];
     }
 }

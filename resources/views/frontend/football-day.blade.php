@@ -54,69 +54,44 @@
         </div>
     </div>
 </nav>
-<div class="container predict-champion">
-    <h1 class="title">Neolab champion ship 2017</h1>
+<div class="container predict-champion predict-day">
+    <h1 class="title">Neolab champion ship 2017 ({!! Carbon\Carbon::now()->toDateString() !!})</h1>
     <div class="champion-tropy">
         <img class="champion-img img-responsive rounded mx-auto d-block" src="/img/champion.png"/>
         <p class="champion-text">The winner will receive a value of {!! number_format($event['prize_value'] ?? 0, 0) !!}
             vnd</p>
     </div>
-    {!! Form::open(['route' => ['frontend.predict', request()->route()->slug], 'class' => 'form-inline']) !!}
+    {!! Form::open(['route' => ['frontend.predict', request()->route()->slug], 'class' => 'form-inline', 'novalidate']) !!}
     <div class="team">
+        @foreach($matches as $match)
         <div class="position">
-            <span class="number">1rd</span>
+            <span class="number">{!! Carbon\Carbon::parse($match->time)->format('H:i') !!}</span>
         </div>
         <div class="team-group row">
             <div class="team-item team-first col">
-                {!! Form::select('1[team_1][team_id]', $teams ?? [], $footballPredictions[1]['team_1'] ?? null, [
-                    'class' => $errors->has('1.team_1.team_id') ? 'form-control is-invalid' : 'form-control', 'required'
+                {!! Form::text('team_1', $match->team1->name ?? null, [
+                    'class' => 'form-control team-name', 'disabled'
                 ]) !!}
                 <div class="score-group form-group">
-                    {!! Form::number('1[team_1][score]', $footballPredictions[1]['score_1'] ?? 0, [
-                        'class' => $errors->has('1.team_1.score') ? 'form-control is-invalid' : 'form-control', 'required', 'min' => 0
+                    {!! Form::number("score[$match->id][$match->team_1_id]", $footballPredictions[$match->id]['score_1'] ?? 0, [
+                        'class' => $errors->has("score.$match->id.$match->team_1_id") ? 'form-control is-invalid' : 'form-control', 'required', 'min' => 0
                     ]) !!}
                     <span class="score-text">Score</span>
                 </div>
             </div>
             <div class="team-item team-second col">
                 <div class="score-group">
-                    {!! Form::number('1[team_2][score]', $footballPredictions[1]['score_2'] ?? 0, [
-                        'class' => $errors->has('1.team_2.score') ? 'form-control is-invalid' : 'form-control', 'required', 'min' => 0
+                    {!! Form::number("score[$match->id][$match->team_2_id]", $footballPredictions[$match->id]['score_2'] ?? 0, [
+                        'class' => $errors->has("score.$match->id.$match->team_2_id") ? 'form-control is-invalid' : 'form-control', 'required', 'min' => 0
                     ]) !!}
                     <span class="score-text">Score</span>
                 </div>
-                {!! Form::select('1[team_2][team_id]', $teams ?? [], $footballPredictions[1]['team_2'] ?? null, [
-                    'class' => $errors->has('1.team_2.team_id') ? 'form-control is-invalid' : 'form-control', 'required'
+                {!! Form::text('team_2', $match->team2->name ?? null, [
+                    'class' => 'form-control team-name', 'disabled'
                 ]) !!}
             </div>
         </div>
-        <div class="position">
-            <span class="number">3st</span>
-        </div>
-        <div class="team-group row">
-            <div class="team-item team-first col">
-                {!! Form::select('3[team_1][team_id]', $teams ?? [], $footballPredictions[3]['team_1'] ?? null, [
-                    'class' => $errors->has('3.team_1.team_id') ? 'form-control is-invalid' : 'form-control', 'required'
-                ]) !!}
-                <div class="score-group">
-                    {!! Form::number('3[team_1][score]', $footballPredictions[3]['score_1'] ?? 0, [
-                        'class' => $errors->has('3.team_1.score') ? 'form-control is-invalid' : 'form-control', 'required', 'min' => 0
-                        ]) !!}
-                    <span class="score-text">Score</span>
-                </div>
-            </div>
-            <div class="team-item team-second col">
-                <div class="score-group">
-                    {!! Form::number('3[team_2][score]', $footballPredictions[3]['score_2'] ?? 0, [
-                        'class' => $errors->has('3.team_2.score') ? 'form-control is-invalid' : 'form-control', 'required', 'min' => 0
-                    ]) !!}
-                    <span class="score-text">Score</span>
-                </div>
-                {!! Form::select('3[team_2][team_id]', $teams ?? [], $footballPredictions[3]['team_2'] ?? null, [
-                    'class' => $errors->has('3.team_2.team_id') ? 'form-control is-invalid' : 'form-control', 'required'
-                ]) !!}
-            </div>
-        </div>
+        @endforeach
     </div>
     <div class="description">
         <div class="row">

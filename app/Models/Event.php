@@ -8,6 +8,10 @@ use Cviebrock\EloquentSluggable\Sluggable;
 class Event extends Model
 {
     use Sluggable;
+    
+    const POSITION_PREDICT_TYPE = 1;
+
+    const DAY_PREDICT_TYPE = 2;
 
     /**
      * Status is publish
@@ -30,6 +34,10 @@ class Event extends Model
      * @var string
      */
     protected $table = 'events';
+
+    protected $fillable = [
+        'type'
+    ];
 
     /**
      * Return the sluggable configuration array for this model.

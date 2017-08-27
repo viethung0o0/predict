@@ -26,7 +26,8 @@ class FootballPrediction extends Model
         'team_2',
         'score_2',
         'prediction_id',
-        'position'
+        'position',
+        'football_match_id'
     ];
 }
 

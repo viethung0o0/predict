@@ -21,6 +21,7 @@ class CreateFootballPredictionsTable extends Migration
             $table->integer('score_1')->index();
             $table->integer('team_2')->index();
             $table->integer('score_2')->index();
+            $table->integer('football_match_id')->index()->unsigned();
             $table->smallInteger('position')->nullable();
             $table->timestamps();
         });

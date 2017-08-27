@@ -6,9 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Prediction extends Model
 {
-    const POSITION_PREDICT_TYPE = 1;
-
-    const DAY_PREDICT_TYPE = 2;
 
     /**
      * The table associated with the model.
@@ -29,6 +26,5 @@ class Prediction extends Model
         'status',
         'same_respondent_number',
         'date',
-        'type'
     ];
 }

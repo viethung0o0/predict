@@ -4,14 +4,14 @@ namespace App\Criteria;
 
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
-use App\Models\Prediction;
+use Carbon\Carbon;
 
 /**
  * Class PositionPredictionCriteria
  *
  * @package namespace App\Criteria;
  */
-class PositionPredictionCriteria implements CriteriaInterface
+class FootballMatchCurrentDayCriteria implements CriteriaInterface
 {
     private $data;
 
@@ -30,12 +30,8 @@ class PositionPredictionCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        $model = $model->where('user_id', $this->data['user_id'])
-            ->where('prediction_id', $this->data['prediction_id']);
-
-        if (!empty($this->data['position'])) {
-            $model = $model->whereIn('position', $this->data['position']);
-        }
+        $model = $model->where('event_id', $this->data['event_id'])
+            ->whereDate('time', Carbon::now());
 
         return $model;
     }

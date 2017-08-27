@@ -1,5 +1,5 @@
 <?php
 
 // Routeentication Routes...
-Route::get('predict/{slug}', 'FootballController@showPredictPosition')->name('predict.football');
-Route::post('predict/{slug}', 'FootballController@predictPosition');
+Route::get('predict/{slug}', 'PredictController@showPredict')->name('predict');
+Route::post('predict/{slug}', 'PredictController@predict');
